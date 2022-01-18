@@ -171,7 +171,7 @@
     <span [ngOptionHighlight]="search">{{ item.name }}</span>
   </ng-container>
 
-  <ng-container *ngSwitchCase="resource ==='subproject' || resource ==='version' || resource ==='status' || resource ==='default'">
+  <ng-container *ngSwitchCase="resource ==='subproject' || resource ==='version' || resource ==='status' || resource ==='default' || !resource">
     <span [ngOptionHighlight]="search">{{ item.name }}</span>
   </ng-container>
 </ng-template>
