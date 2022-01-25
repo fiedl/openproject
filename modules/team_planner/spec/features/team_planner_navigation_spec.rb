@@ -107,4 +107,33 @@ describe 'Team planner', type: :feature, js: true do
       it_behaves_like 'loads the query view'
     end
   end
+
+  context 'with an existing plan and creating a new one' do
+    let!(:view) { FactoryBot.create :view_team_planner, query: query }
+    let!(:query) { FactoryBot.create :query, user: user, project: project, public: true }
+
+    it 'allows to reload with query props active' do
+      team_planner.visit!
+
+      team_planner.expect_assignee(user, present: false)
+
+      click_on 'Create new planner'
+      team_planner.expect_assignee(user, present: false)
+
+      retry_block do
+        team_planner.click_add_user
+        page.find('[data-qa-selector="tp-add-assignee"] input')
+        team_planner.select_user_to_add user.name
+      end
+
+      team_planner.expect_assignee(user)
+
+      page.driver.refresh
+
+      expect(page).to have_current_path /query_props=/
+      expect(page).to have_current_path /cview=/
+
+      team_planner.expect_assignee(user)
+    end
+  end
 end

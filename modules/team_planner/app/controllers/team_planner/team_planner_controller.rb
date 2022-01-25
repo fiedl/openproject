@@ -18,7 +18,7 @@ module ::TeamPlanner
 
     def redirect_to_first_plan
       return unless @project
-      return if params[:query_id]
+      return if team_planner_query_params?
 
       if (query_id = find_existing_plan)
         redirect_to action: :index, query_id: query_id
@@ -33,6 +33,10 @@ module ::TeamPlanner
         .where('queries.project_id' => @project.id)
         .order('queries.name ASC')
         .pick('queries.id')
+    end
+
+    def team_planner_query_params?
+      params[:query_id] || params[:query_props]
     end
   end
 end
