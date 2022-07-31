@@ -30,6 +30,8 @@ RUN apt-get update -qq && \
 RUN curl -fsSL https://deb.nodesource.com/setup_14.x | bash -
 RUN apt-get install -y nodejs
 
+RUN apt-get install -y graphviz
+
 COPY ./docker/dev/backend/scripts/setup /usr/sbin/setup
 COPY ./docker/dev/backend/scripts/run-app /usr/sbin/run-app
 
